@@ -1,5 +1,5 @@
 package app.api.controller;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import app.entity.Emp;
 import app.repository.EmpRepository;
 import app.util.Util;
+
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +17,15 @@ import lombok.RequiredArgsConstructor;
 public class EmpAPIController {
  
 	private final EmpRepository empRepository;
-	
+  
+	@DeleteMapping("/api/emp/{empno}")
+	public Emp deleteEmpByEmpno(@PathVariable Integer empno) {
+		Emp emp = empRepository.findById(empno)
+				.orElseThrow(() -> new EntityNotFoundException("Not Found the Employee"));
+		empRepository.delete(emp);
+		return emp;
+	}
+
 	@PutMapping("/api/emp/{empno}")
 	public Emp updateEmp(@RequestBody Emp updateEmp, @PathVariable Integer empno) {
 		
@@ -35,6 +44,5 @@ public class EmpAPIController {
 			       .build()
 			);
 	}
-	
 	
 }
