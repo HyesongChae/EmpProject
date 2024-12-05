@@ -34,6 +34,7 @@ public class EmpAPIController {
 				
 		return empRepository.save(
 			    Emp.builder()
+			       .empno(empno)
 			       .ename(Util.getOrDefault(updateEmp.getEname(), emp.getEname()))
 			       .job(Util.getOrDefault(updateEmp.getJob(), emp.getJob()))
 			       .mgr(Util.getOrDefault(updateEmp.getMgr(), emp.getMgr()))
