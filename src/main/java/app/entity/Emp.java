@@ -42,7 +42,7 @@ public class Emp {
 	
 	@ManyToOne
 	@JoinColumn(name = "deptno")
-	private Dept dept;
+	private Dept dept; 
 	
 	@Builder
 	public Emp(int empno, String ename, String job, Integer mgr, LocalDate hiredate, Double sal, Double comm, Dept dept) {

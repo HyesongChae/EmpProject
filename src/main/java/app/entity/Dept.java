@@ -16,7 +16,7 @@ import lombok.ToString;
 @ToString
 @Entity
 public class Dept {
-	@Id
+	@Id 
 	@Column(name = "deptno")
 	private Integer deptno;
 	

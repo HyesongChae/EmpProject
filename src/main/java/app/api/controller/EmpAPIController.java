@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 public class EmpAPIController {
-
+ 
 	private final EmpRepository empRepository;
 	
 	
