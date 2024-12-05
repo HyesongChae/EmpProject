@@ -4,20 +4,20 @@ package app.api.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import org.springframework.web.bind.annotation.RestController;
 
+import app.dto.EmpDto;
+import app.entity.Dept;
 import app.entity.Emp;
+import app.repository.DeptRepository;
 import app.repository.EmpRepository;
 import app.util.Util;
-
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class EmpAPIController {
  
 	private final EmpRepository empRepository;
+	private final DeptRepository deptRepository;
 
 	
 	@GetMapping("/emps")
@@ -40,6 +41,23 @@ public class EmpAPIController {
 	            .orElse(ResponseEntity.notFound().build());
 	}
 
+	@PostMapping("/api/emp/{empno}")
+	public Emp createEmp(@RequestBody EmpDto empDto, @PathVariable Integer empno) {
+		Dept dept = deptRepository.findById(empDto.getDeptno()).orElseThrow(null);
+		
+		Emp emp = Emp.builder()
+			       .empno(empno)
+			       .ename(empDto.getEname())
+			       .job(empDto.getJob())
+			       .mgr(empDto.getMgr())
+			       .hiredate(empDto.getHiredate())
+			       .sal(empDto.getSal())
+			       .comm(empDto.getComm())
+			       .dept(dept)
+			       .build();
+		
+		return empRepository.save(emp);
+	}
 
 
   
