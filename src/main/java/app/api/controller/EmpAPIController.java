@@ -1,6 +1,5 @@
 package app.api.controller;
 
-
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.dto.EmpDto;
@@ -23,11 +23,11 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class EmpAPIController {
  
 	private final EmpRepository empRepository;
 	private final DeptRepository deptRepository;
-
 	
 	@GetMapping("/emps")
 	public List<Emp> getAllEmployees() {
@@ -41,7 +41,7 @@ public class EmpAPIController {
 	            .orElse(ResponseEntity.notFound().build());
 	}
 
-	@PostMapping("/api/emp/{empno}")
+	@PostMapping("/emp/{empno}")
 	public Emp createEmp(@RequestBody EmpDto empDto, @PathVariable Integer empno) {
 		Dept dept = deptRepository.findById(empDto.getDeptno()).orElseThrow(null);
 		
@@ -59,9 +59,7 @@ public class EmpAPIController {
 		return empRepository.save(emp);
 	}
 
-
-  
-	@DeleteMapping("/api/emp/{empno}")
+	@DeleteMapping("/emp/{empno}")
 	public Emp deleteEmpByEmpno(@PathVariable Integer empno) {
 		Emp emp = empRepository.findById(empno)
 				.orElseThrow(() -> new EntityNotFoundException("Not Found the Employee"));
@@ -69,7 +67,7 @@ public class EmpAPIController {
 		return emp;
 	}
 
-	@PutMapping("/api/emp/{empno}")
+	@PutMapping("/emp/{empno}")
 	public Emp updateEmp(@RequestBody Emp updateEmp, @PathVariable Integer empno) {
 		
 		Emp emp = empRepository.findById(empno)
@@ -88,6 +86,4 @@ public class EmpAPIController {
 			       .build()
 			);
 	}
-
-	
 }
